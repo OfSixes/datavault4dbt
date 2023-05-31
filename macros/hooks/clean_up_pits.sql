@@ -70,3 +70,4 @@ WHERE pit.{{ sdts }} NOT IN (SELECT {{ sdts }} FROM {{ ref(snapshot_relation) }}
 
 {%- endmacro -%}
 
+--TODO: check if needed for Redshift

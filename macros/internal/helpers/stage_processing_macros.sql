@@ -115,10 +115,12 @@
 {%- macro print_list(list_to_print=none, indent=4, src_alias=none) -%}
 
     {%- for col_name in list_to_print -%}
-        {%- if src_alias %}
-        {{ (src_alias ~ '.' ~ col_name) | indent(indent) }}{{ "," if not loop.last }}
-        {%- else %}
-        {{ col_name | indent(indent) }}{{ "," if not loop.last }}
+        {%- if src_alias -%}
+            {{ (src_alias ~ '.' ~ col_name) | indent(indent) }}
+            {{- ",\n" if not loop.last -}}
+        {%- else -%}
+            {{ col_name | indent(indent) }}
+            {{- ",\n" if not loop.last -}}
         {%- endif %}
     {%- endfor -%}
 
