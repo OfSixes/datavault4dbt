@@ -70,4 +70,17 @@ WHERE pit.{{ sdts }} NOT IN (SELECT {{ sdts }} FROM {{ ref(snapshot_relation) }}
 
 {%- endmacro -%}
 
---TODO: check if needed for Redshift
+{%- macro redshift__clean_up_pit(snapshot_relation, snapshot_trigger_column, sdts) -%}
+
+DELETE FROM {{ this }} AS pit
+WHERE pit.{{ sdts }} NOT IN (
+    SELECT {{ sdts }}
+    FROM {{ ref(snapshot_relation) }} AS snap
+    WHERE snap.{{ snapshot_trigger_column }} = TRUE
+)
+
+{%- if execute -%}
+    {{- log("PIT " ~ this ~ " successfully cleaned!", True) -}}
+{%- endif -%}
+
+{%- endmacro -%}
